@@ -235,23 +235,24 @@ def waymo_data_prep(root_path,
     #     num_worker=workers).create()
 
 
-def semantickitti_data_prep(info_prefix, out_dir):
-    """Prepare the info file for SemanticKITTI dataset.
+# def semantickitti_data_prep(info_prefix, out_dir):
+#     """Prepare the info file for SemanticKITTI dataset.
+#
+#     Args:
+#         info_prefix (str): The prefix of info filenames.
+#         out_dir (str): Output directory of the generated info file.
+#     """
+#     semantickitti_converter.create_semantickitti_info_file(
+#         info_prefix, out_dir)
 
-    Args:
-        info_prefix (str): The prefix of info filenames.
-        out_dir (str): Output directory of the generated info file.
-    """
-    semantickitti_converter.create_semantickitti_info_file(
-        info_prefix, out_dir)
-
+# gsutil -m cp -r "gs://waymo_open_dataset_motion_v_1_2_0/uncompressed" .
 
 parser = argparse.ArgumentParser(description='Data converter arg parser')
-parser.add_argument('dataset', metavar='kitti', help='name of the dataset')
+parser.add_argument('--dataset', default='waymo', help='name of the dataset')
 parser.add_argument(
     '--root-path',
     type=str,
-    default='./data/kitti',
+    default='./data/waymo',
     help='specify the root path of dataset')
 parser.add_argument(
     '--version',
@@ -272,11 +273,11 @@ parser.add_argument(
 parser.add_argument(
     '--out-dir',
     type=str,
-    default='./data/kitti',
+    default='./data/waymo',
     required=False,
     help='name of info pkl')
-parser.add_argument('--extra-tag', type=str, default='kitti')
-parser.add_argument('--gen-gt-bin', action='store_true', help='Whether to generate validation gt.bin')
+parser.add_argument('--extra-tag', type=str, default='')
+parser.add_argument('--gen-gt-bin', default=False,  action='store_true', help='Whether to generate validation gt.bin')
 parser.add_argument(
     '--workers', type=int, default=4, help='number of threads to be used')
 args = parser.parse_args()
@@ -358,8 +359,8 @@ if __name__ == '__main__':
             info_prefix=args.extra_tag,
             out_dir=args.out_dir,
             workers=args.workers)
-    elif args.dataset == 'semantickitti':
-        semantickitti_data_prep(
-            info_prefix=args.extra_tag, out_dir=args.out_dir)
+    # elif args.dataset == 'semantickitti':
+    #     semantickitti_data_prep(
+    #         info_prefix=args.extra_tag, out_dir=args.out_dir)
     else:
         raise NotImplementedError(f'Don\'t support {args.dataset} dataset.')

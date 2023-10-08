@@ -1,10 +1,13 @@
+import sys
+sys.path.append('/home/lq/lq_projects/code_as_policy')
+
 _base_ = [
     'mmdet3d::_base_/datasets/waymoD5-3d-3class.py',
     'mmdet3d::_base_/schedules/cyclic-40e.py', 
     'mmdet3d::_base_/default_runtime.py'
 ]
 custom_imports = dict(
-    imports=['projects.core'], allow_failed_imports=False)
+    imports=['owlvit_segment_anything.lq_test.SAM3D.projects.core'], allow_failed_imports=False)
 
 voxel_size = [0.1, 0.1, 6]
 point_cloud_range = [-30.0, -30.0, -2, 30.0, 30.0, 4]
@@ -32,7 +35,7 @@ model = dict(
     mask_generator = dict(
         type='MaskAutoGenerator',
         sam_type='default',
-        sam_ckpt_path='projects/pretrain_weights/sam_vit_h_4b8939.pth',
+        sam_ckpt_path='/home/lq/lq_projects/code_as_policy/owlvit_segment_anything/sam_vit_h_4b8939.pth',
     ),
     mask_postprocess = dict(
         type='MaskPostProcessor',

@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import sys
+
 sys.path.append('.')
 import argparse
 import os
@@ -16,8 +17,11 @@ from mmdet3d.utils import register_all_modules, replace_ceph_backend
 def parse_args():
     parser = argparse.ArgumentParser(
         description='MMDet3D test (and eval) a model')
-    parser.add_argument('config', help='test config file path')
-    parser.add_argument('checkpoint', help='checkpoint file')
+    parser.add_argument('--config',
+                        default='/home/lq/lq_projects/code_as_policy/owlvit_segment_anything/lq_test/SAM3D/projects/configs/sam3d_intensity_bev_waymo_car.py',
+                        help='test config file path')
+    parser.add_argument('--checkpoint', default='/home/lq/lq_projects/code_as_policy/owlvit_segment_anything/sam_vit_h_4b8939.pth',
+                        help='checkpoint file')
     parser.add_argument(
         '--work-dir',
         help='the directory to save the file containing evaluation metrics')
@@ -28,8 +32,8 @@ def parse_args():
     parser.add_argument(
         '--show-dir',
         help='directory where painted images will be saved. '
-        'If specified, it will be automatically saved '
-        'to the work_dir/timestamp/show_dir')
+             'If specified, it will be automatically saved '
+             'to the work_dir/timestamp/show_dir')
     parser.add_argument(
         '--task',
         type=str,
@@ -45,11 +49,11 @@ def parse_args():
         nargs='+',
         action=DictAction,
         help='override some settings in the used config, the key-value pair '
-        'in xxx=yyy format will be merged into config file. If the value to '
-        'be overwritten is a list, it should be like key="[a,b]" or key=a,b '
-        'It also allows nested list/tuple values, e.g. key="[(a,b),(c,d)]" '
-        'Note that the quotation marks are necessary and that no white space '
-        'is allowed.')
+             'in xxx=yyy format will be merged into config file. If the value to '
+             'be overwritten is a list, it should be like key="[a,b]" or key=a,b '
+             'It also allows nested list/tuple values, e.g. key="[(a,b),(c,d)]" '
+             'Note that the quotation marks are necessary and that no white space '
+             'is allowed.')
     parser.add_argument(
         '--launcher',
         choices=['none', 'pytorch', 'slurm', 'mpi'],
